@@ -1,12 +1,10 @@
-from ghostwriter import make_sentence, build_chain, get_words
+from ghostwriter import Chain
 
 
 def main():
-    words = get_words('text.txt')
-    print(words)
-    chain = build_chain(words)
-    print(chain)
-    sentence = make_sentence(chain, 20)
+    chain = Chain()
+    chain.load('text.txt')
+    sentence = chain.generate(wc=20)
     print(sentence)
 
 

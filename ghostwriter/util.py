@@ -4,25 +4,24 @@ import re
 
 
 class Chain:
+    words = []
     chain = {}
+    # def __init__(self, echo):
+    # print(echo)
     def load(self, fname='text.txt'):
         with open(fname, 'r') as f:
             text = f.read()
         mecab = MeCab.Tagger('-Owakati')
-        words = mecab.parse(text)
-        words = re.findall('\w+', words)
-        # return words
-
+        self.words = mecab.parse(text)
+        self.words = re.findall('\w+', self.words)
         self.chain = {}
-        for i in range(len(words)-1):
-            if words[i] in self.chain:
-                self.chain[words[i]].append(words[i+1])
+        for i in range(len(self.words)-1):
+            if self.words[i] in self.chain:
+                self.chain[self.words[i]].append(self.words[i+1])
             else :
-                self.chain[words[i]] = []
-                self.chain[words[i]].append(words[i+1])
-        # return self.chain
-
-    def make(self, wc=20):
+                self.chain[self.words[i]] = []
+                self.chain[self.words[i]].append(self.words[i+1])
+    def generate(self, wc=20):
         selected, _ = random.choice(list(self.chain.items()))
         sentence = selected
         for i in range(wc):
@@ -34,42 +33,10 @@ class Chain:
         return sentence
 
 
-def make_sentence(chain, wc=20):
-    selected, _ = random.choice(list(chain.items()))
-    sentence = selected
-    for i in range(wc):
-        if selected in chain:
-            selected = random.choice(chain[selected])
-            sentence += selected
-        else :
-            selected, _ = random.choice(list(chain.items()))
-    return sentence
-
-
-def build_chain(words):
-    chain = {}
-    for i in range(len(words)-1):
-        if words[i] in chain:
-            chain[words[i]].append(words[i+1])
-        else :
-            chain[words[i]] = []
-            chain[words[i]].append(words[i+1])
-    return chain
-
-
-def get_words(fname='text.txt'):
-    with open(fname, 'r') as f:
-        text = f.read()
-    mecab = MeCab.Tagger('-Owakati')
-    words = mecab.parse(text)
-    words = re.findall('\w+', words)
-    return words
-
-
 def main():
     chain = Chain()
     chain.load('../text.txt')
-    sentence = chain.make(wc=20)
+    sentence = chain.generate(wc=20)
     print(sentence)
 
 
