@@ -1,10 +1,12 @@
+import sys
 from ghostwriter import Chain
 
 
 def main():
+    args = sys.argv
     chain = Chain()
-    chain.load('text.txt')
-    sentence = chain.generate(wc=20)
+    chain.load(args[1])
+    sentence = chain.generate(wc=40)
     print(sentence)
 
 

@@ -21,6 +21,8 @@ class Chain:
             else :
                 self.chain[self.words[i]] = []
                 self.chain[self.words[i]].append(self.words[i+1])
+
+
     def generate(self, wc=20):
         selected, _ = random.choice(list(self.chain.items()))
         sentence = selected
